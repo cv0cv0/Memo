@@ -29,6 +29,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="wzh-T2-mf0" kind="show" identifier="cell_segue" id="3OI-nS-5Fw"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -82,19 +85,27 @@
                         <viewLayoutGuide key="safeArea" id="yoW-NW-AYY"/>
                     </view>
                     <navigationItem key="navigationItem" id="q3e-ty-gDe">
-                        <barButtonItem key="rightBarButtonItem" title="完成" id="RMh-DE-If0">
-                            <connections>
-                                <action selector="onCompleteClick:" destination="wzh-T2-mf0" id="IUI-HG-cGg"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="完成" id="RMh-DE-If0">
+                                <connections>
+                                    <action selector="onCompleteClick:" destination="wzh-T2-mf0" id="IUI-HG-cGg"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="删除" id="XeK-aj-Yxq">
+                                <connections>
+                                    <action selector="onDeleteClick:" destination="wzh-T2-mf0" id="u3M-Vf-3X8"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="deleteButton" destination="XeK-aj-Yxq" id="2AX-EV-Wtl"/>
                         <outlet property="textView" destination="0h2-tK-t3p" id="53Q-Te-dXG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ehd-ti-Vwp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1" y="-585"/>
+            <point key="canvasLocation" x="17" y="-585"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="NAG-P5-9PI">
@@ -115,4 +126,7 @@
             <point key="canvasLocation" x="-1623" y="-585"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="3OI-nS-5Fw"/>
+    </inferredMetricsTieBreakers>
 </document>

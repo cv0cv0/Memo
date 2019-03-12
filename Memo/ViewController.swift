@@ -21,6 +21,12 @@ class ViewController: UIViewController, UITableViewDelegate {
         loadData()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "editor_segue" {
+            
+        }
+    }
+    
     private func loadData() {
         let query = LCQuery(className: "Cell")
         _ = query.find { result in
@@ -42,9 +48,10 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let tableCell = tableView.dequeueReusableCell(withIdentifier: "table_cell")
-        let object = dataArray[indexPath.row] as! LCObject
-        tableCell?.textLabel?.text = object.get("text")?.stringValue
-        return tableCell!
+        let tableCell = tableView.dequeueReusableCell(withIdentifier: "table_cell") as! TableViewCell
+        let cell = dataArray[indexPath.row] as! LCObject
+        tableCell.cell = cell
+        tableCell.textLabel?.text = cell.get("text")?.stringValue
+        return tableCell
     }
 }

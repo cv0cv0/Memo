@@ -11,6 +11,9 @@ import LeanCloud
 
 class EditorViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var deleteButton: UIBarButtonItem!
+    
+    var cell: LCObject? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,5 +30,8 @@ class EditorViewController: UIViewController {
                 NSLog("-> %@", error.localizedDescription)
             }
         }
+    }
+    
+    @IBAction func onDeleteClick(_ sender: UIBarButtonItem) {
     }
 }

@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import LeanCloud
 
 class TableViewCell: UITableViewCell {
+    var cell: LCObject? = nil
 
     override func awakeFromNib() {
         super.awakeFromNib()
