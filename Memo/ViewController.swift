@@ -7,6 +7,7 @@
 //
 
 import UIKit
+
 import LeanCloud
 
 class ViewController: UIViewController, UITableViewDelegate {
@@ -18,12 +19,18 @@ class ViewController: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         loadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "editor_segue" {
-            
+        if segue.identifier == "from_cell" {
+            let viewController = segue.destination as! EditorViewController
+            let tableCell = sender as! TableViewCell
+            viewController.cell = tableCell.cell
         }
     }
     
@@ -32,6 +39,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         _ = query.find { result in
             switch result {
             case .success(let objects):
+                self.dataArray.removeAllObjects()
                 self.dataArray.addObjects(from: objects)
                 self.tableView.reloadData()
                 break
@@ -49,9 +57,9 @@ extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tableCell = tableView.dequeueReusableCell(withIdentifier: "table_cell") as! TableViewCell
-        let cell = dataArray[indexPath.row] as! LCObject
-        tableCell.cell = cell
-        tableCell.textLabel?.text = cell.get("text")?.stringValue
+        let object = dataArray[indexPath.row] as! LCObject
+        tableCell.cell = object
+        tableCell.textLabel?.text = object.get("text")?.stringValue
         return tableCell
     }
 }

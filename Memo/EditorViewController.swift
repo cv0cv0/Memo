@@ -7,24 +7,43 @@
 //
 
 import UIKit
+
 import LeanCloud
 
 class EditorViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var deleteButton: UIBarButtonItem!
+    
+    private let completeButton = UIBarButtonItem()
+    private var deleteButton: UIBarButtonItem? = nil
     
     var cell: LCObject? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        completeButton.title = "完成"
+        completeButton.action = #selector(onCompleteClick)
+        
+        if cell != nil {
+            textView.text = cell?.get("text")?.stringValue
+            
+            deleteButton = UIBarButtonItem()
+            deleteButton?.title = "删除"
+            deleteButton?.action = #selector(onDeleteClick)
+            navigationItem.setRightBarButtonItems([completeButton, deleteButton!], animated: false)
+        } else {
+            navigationItem.setRightBarButton(completeButton, animated: false)
+        }
     }
     
-    @IBAction func onCompleteClick(_ sender: UIBarButtonItem) {
-        let cell = LCObject(className: "Cell")
-        cell.set("text", value: textView.text)
-        _ = cell.save { result in
+    @objc private func onCompleteClick() {
+        if cell == nil {
+            cell = LCObject(className: "Cell")
+        }
+        cell?.set("text", value: textView.text)
+        _ = cell?.save { result in
             switch result {
             case .success:
+                self.navigationController?.popViewController(animated: true)
                 break
             case .failure(let error):
                 NSLog("-> %@", error.localizedDescription)
@@ -32,6 +51,15 @@ class EditorViewController: UIViewController {
         }
     }
     
-    @IBAction func onDeleteClick(_ sender: UIBarButtonItem) {
+    @objc private func onDeleteClick() {
+        _ = cell?.delete { result in
+            switch result {
+            case .success:
+                self.navigationController?.popViewController(animated: true)
+                break
+            case .failure(let error):
+                NSLog("-> %@", error.localizedDescription)
+            }
+        }
     }
 }
